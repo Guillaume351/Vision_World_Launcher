@@ -118,9 +118,17 @@ public class MainActivity extends AppCompatActivity {
                     });
                 } else {
 
-                    taskLoadUp(preferences.getString("city", "Toulouse") + ",FR");
+                    //  taskLoadUp(preferences.getString("city", "Toulouse") + ",FR");
 
+                    runOnUiThread(new Runnable() {
 
+                        @Override
+                        public void run() {
+                            taskLoadUp("BYLONGLAT");
+
+                        }
+
+                    });
                 }
 
 
