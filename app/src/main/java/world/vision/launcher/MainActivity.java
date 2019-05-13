@@ -1,20 +1,19 @@
 package world.vision.launcher;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.Html;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
@@ -32,7 +31,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.Function;
 
 import world.vision.launcher.Adapter.disabledAdapter;
 
@@ -49,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     SimpleDateFormat simpleTimeFormat;
     String OPEN_WEATHER_MAP_API = "33db9672ac6de85e2dd02f02bc9445d4";
     GridView grdView;
+    Timer timerMeteo;
 
     TextView detailsField, tempField, weatherIcon;//detailsField contient le nom de la ville
 
@@ -100,19 +99,31 @@ public class MainActivity extends AppCompatActivity {
         weatherIcon.setTypeface(weatherFont);
 
         //taskLoadUp("Toulouse, FR");
-        Timer timerMeteo = new Timer();
+        timerMeteo = new Timer();
         timerMeteo.schedule(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {
+                SharedPreferences preferences = getSharedPreferences("meteoCoordinates", MODE_PRIVATE);
+                SharedPreferences.Editor edit = preferences.edit();
 
-                    @Override
-                    public void run() {
-                        taskLoadUp("Toulouse, FR");
+                if (!(preferences.getBoolean("customCity", false))) {
+                    runOnUiThread(new Runnable() {
 
-                    }
+                        @Override
+                        public void run() {
+                            taskLoadUp("Toulouse, FR");
 
-                });
+                        }
+
+                    });
+                } else {
+
+                    taskLoadUp(preferences.getString("city", "Toulouse") + ",FR");
+
+
+                }
+
+
 
             }
         }, 0, 1000 * 60 * 60);//une fois par heure
@@ -270,7 +281,54 @@ public class MainActivity extends AppCompatActivity {
 
     public void openSettings(View v) {
         Intent intent = new Intent(this, LauncherSettings.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 1) {
+            // Make sure the request was successful
+            timerMeteo.cancel();
+            timerMeteo = new Timer();
+            timerMeteo.schedule(new TimerTask() {
+                @Override
+                public void run() {
+
+                    SharedPreferences preferences = getSharedPreferences("meteoCoordinates", MODE_PRIVATE);
+                    SharedPreferences.Editor edit = preferences.edit();
+
+                    if (!(preferences.getBoolean("customCity", false))) {
+                        Log.d("Weather", "Custom city disabled");
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                taskLoadUp("Toulouse, FR");
+
+                            }
+
+                        });
+                    } else {
+
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Log.d("Weather", "Custom city enabled");
+                                //taskLoadUp(preferences.getString("city","Toulouse")+", "+ preferences.getString("country","France"));
+                                taskLoadUp("BYLONGLAT");
+
+                            }
+
+                        });
+
+                    }
+
+
+                }
+            }, 0, 1000 * 60 * 60);//une fois par heure
+        }
     }
 
     public void taskLoadUp(String query) {
@@ -291,8 +349,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected String doInBackground(String... args) {
-            String xml = MeteoHandler.excuteGet("http://api.openweathermap.org/data/2.5/weather?q=" + args[0] +
-                    "&units=metric&appid=" + OPEN_WEATHER_MAP_API);
+            String xml = "";
+            if (args[0].equals("BYLONGLAT")) {
+                SharedPreferences preferences = getSharedPreferences("meteoCoordinates", MODE_PRIVATE);
+                // SharedPreferences.Editor edit= preferences.edit();
+
+                xml = MeteoHandler.excuteGet("http://api.openweathermap.org/data/2.5/weather?lat=" + (preferences.getFloat("lat", 0)) + "&lon=" + (preferences.getFloat("long", 0)) + "" +
+                        "&units=metric&appid=" + OPEN_WEATHER_MAP_API);
+                Log.d("Weather request : ", "http://api.openweathermap.org/data/2.5/weather?lat=" + (preferences.getFloat("lat", 0)) + "&lon=" + (preferences.getFloat("long", 0)) +
+                        "&units=metric&appid=" + OPEN_WEATHER_MAP_API);
+            } else {
+                xml = MeteoHandler.excuteGet("http://api.openweathermap.org/data/2.5/weather?q=" + args[0] +
+                        "&units=metric&appid=" + OPEN_WEATHER_MAP_API);
+            }
+
             return xml;
         }
 
