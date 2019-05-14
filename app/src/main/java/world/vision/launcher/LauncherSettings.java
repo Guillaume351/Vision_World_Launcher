@@ -40,7 +40,7 @@ import java.util.Locale;
 import world.vision.launcher.Adapter.disabledAdapter;
 
 public class LauncherSettings extends AppCompatActivity {
-    public String[] settingsCategories = {"Wifi\net Réseau", "Langues", "Actualiser la ville météo"};
+    public String[] settingsCategories = {"Wifi\net Réseau", "Langues", "Ville météo"};
     public GridView grdView;
     public ArrayAdapter<String> adapter;
     private FusedLocationProviderClient fusedLocationClient;
@@ -111,7 +111,7 @@ public class LauncherSettings extends AppCompatActivity {
                                         startActivityForResult(new Intent(Settings.ACTION_LOCALE_SETTINGS), 0);
                                     }
 
-                                    if (settingsCategories[position].equals("Actualiser la ville météo")) {
+                                    if (settingsCategories[position].equals("Ville météo")) {
                                         refreshWeatherCity(v);
                                     }
 
@@ -167,28 +167,32 @@ public class LauncherSettings extends AppCompatActivity {
         //  requestPermissions(permissions,1440);
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(LauncherSettings.this);
         builder.setTitle("Ville météo");
 
 // Set up the input
         final EditText input = new EditText(getApplicationContext());
+        input.setHint("Entrez le nom de la ville");
 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
 // Set up the buttons
         builder.setPositiveButton("Me localiser", new DialogInterface.OnClickListener() {
-            String m_Text;
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                m_Text = input.getText().toString();
-            }
-        });
-        builder.setNegativeButton("Entrer manuellement", new DialogInterface.OnClickListener() {
+
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 useGeoLocation();
-                dialog.cancel();
+
+            }
+        });
+        builder.setNegativeButton("Entrer manuellement", new DialogInterface.OnClickListener() {
+            String m_Text;
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String m_Text = input.getText().toString();
+                getLocationFromCityName(m_Text);
             }
         });
 
@@ -236,6 +240,43 @@ public class LauncherSettings extends AppCompatActivity {
         }
 
 
+    }
+
+    public void getLocationFromCityName(String city) {
+
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+        List<Address> addresses = null;
+
+
+        SharedPreferences preferences = getSharedPreferences("meteoCoordinates", MODE_PRIVATE);
+        SharedPreferences.Editor edit = preferences.edit();
+
+        edit.putBoolean("isFirstRun", false);
+        try {
+            addresses = geocoder.getFromLocationName(city, 1);
+            if (addresses.size() > 0) {
+                String cityName = addresses.get(0).getAddressLine(0);
+                String stateName = addresses.get(0).getAddressLine(1);
+                String countryName = addresses.get(0).getAddressLine(2);
+                edit.putString("city", cityName);
+                edit.putBoolean("customCity", true);
+                edit.putString("country", countryName);
+                edit.putFloat("lat", (float) addresses.get(0).getLatitude());
+                edit.putFloat("long", (float) addresses.get(0).getLongitude());
+                Log.d(cityName, "onSuccess: (" + cityName);
+                edit.apply();
+                setResult(1, getIntent());
+                finish();
+            } else {
+                // do your stuff
+                Log.d("Error", "Address empty ");
+
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void useGeoLocation(){
