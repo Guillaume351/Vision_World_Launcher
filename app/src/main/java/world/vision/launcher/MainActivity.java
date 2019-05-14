@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 SharedPreferences preferences = getSharedPreferences("meteoCoordinates", MODE_PRIVATE);
-                SharedPreferences.Editor edit = preferences.edit();
+                //SharedPreferences.Editor edit = preferences.edit();
 
                 if (!(preferences.getBoolean("customCity", false))) {
                     runOnUiThread(new Runnable() {

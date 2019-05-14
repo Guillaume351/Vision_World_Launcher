@@ -1,7 +1,9 @@
 package world.vision.launcher;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -12,12 +14,15 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -155,11 +160,85 @@ public class LauncherSettings extends AppCompatActivity {
 
     }
 
+    @SuppressLint({"RxLeakedSubscription", "RxSubscribeOnError"})
     public void refreshWeatherCity(View v) {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
         //  requestPermissions(permissions,1440);
 
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        builder.setTitle("Ville météo");
+
+// Set up the input
+        final EditText input = new EditText(getApplicationContext());
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("Me localiser", new DialogInterface.OnClickListener() {
+            String m_Text;
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                m_Text = input.getText().toString();
+            }
+        });
+        builder.setNegativeButton("Entrer manuellement", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                useGeoLocation();
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
+
+
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+
+
+            /*
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+
+
+            SharedPreferences preferences = getSharedPreferences("meteoCoordinates", MODE_PRIVATE);
+            SharedPreferences.Editor edit= preferences.edit();
+
+            edit.putBoolean("isFirstRun", false);
+
+
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocation(preferences.getFloat("long",0), preferences.getFloat("lat",0), 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String cityName = addresses.get(0).getAddressLine(0);
+            String stateName = addresses.get(0).getAddressLine(1);
+            String countryName = addresses.get(0).getAddressLine(2);
+            edit.putString("city",cityName);
+            edit.apply();
+            */
+        }
+
+
+    }
+
+    public void useGeoLocation(){
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION).subscribe(granted -> {
             if (granted) {
@@ -211,6 +290,7 @@ public class LauncherSettings extends AppCompatActivity {
                                         } else {
                                             // do your stuff
                                             Log.d("Error", "Address empty ");
+
                                         }
 
 
@@ -219,7 +299,7 @@ public class LauncherSettings extends AppCompatActivity {
                                     }
 
                                 } else {
-                                    Log.d("Location error", "Location null");
+
                                 }
                             }
                         });
@@ -228,46 +308,6 @@ public class LauncherSettings extends AppCompatActivity {
                 return;
             }
         });
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
-
-
-            /*
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            double longitude = location.getLongitude();
-            double latitude = location.getLatitude();
-
-
-            SharedPreferences preferences = getSharedPreferences("meteoCoordinates", MODE_PRIVATE);
-            SharedPreferences.Editor edit= preferences.edit();
-
-            edit.putBoolean("isFirstRun", false);
-
-
-            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-            List<Address> addresses = null;
-            try {
-                addresses = geocoder.getFromLocation(preferences.getFloat("long",0), preferences.getFloat("lat",0), 1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            String cityName = addresses.get(0).getAddressLine(0);
-            String stateName = addresses.get(0).getAddressLine(1);
-            String countryName = addresses.get(0).getAddressLine(2);
-            edit.putString("city",cityName);
-            edit.apply();
-            */
-        }
-
-
     }
 
 
