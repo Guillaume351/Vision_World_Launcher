@@ -27,17 +27,17 @@
             android:id="@+id/settings_gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:columnWidth="100dp"
+
             android:focusable="false"
             android:gravity="center|center_horizontal|fill_horizontal|center_vertical"
             android:numColumns="6"
-            android:stretchMode="spacingWidthUniform"
+            android:stretchMode="columnWidth"
             android:verticalSpacing="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtTime"
-            app:layout_constraintVertical_bias="0.866" />
+            app:layout_constraintVertical_bias="0.866"  />
     </LinearLayout>
 
     <TextView

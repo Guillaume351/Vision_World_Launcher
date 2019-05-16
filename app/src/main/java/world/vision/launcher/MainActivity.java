@@ -1,10 +1,15 @@
 package world.vision.launcher;
 
+import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,12 +39,12 @@ import java.util.TimerTask;
 
 import world.vision.launcher.Adapter.disabledAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Application.ActivityLifecycleCallbacks   {
 
     public static ArrayAdapter<String> adapter;
     public static int CATEGORY_VIDEO = 1, CATEGORY_RADIO = 2, CATEGORY_MUSIC = 3, CATEGORY_TV = 0, CATEGORY_PHOTO = 4, CATEGORY_AUTRES = 5;
     public static int STATE_HOME = 0, STATE_CATEGORY = 1; // Stocke l'etat dans lequel on se trouve (dans un menu, ou à l'accueil)
-    public String[] categories = {"TV", "Vidéos", "Radios", "Musiques", "Photos", "Autres apps"};
+    public String[] categories = {"TV", "Vidéos", "Radios", "Musiques", "Stockage", "Autres apps"};
     public int state = 0;
     TextView txtTime, txtDate;
     Calendar c;
@@ -67,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.txtTime2).setVisibility(View.GONE);
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
+
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
@@ -80,7 +86,9 @@ public class MainActivity extends AppCompatActivity {
                         //android.text.format.DateFormat df = new android.text.format.DateFormat();//TODO: use to format hour & time
                         //android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss a", new java.util.Date());
                         int dayOfWeek = date.getDay();
-
+                        if(MainActivity.this.hasWindowFocus()) {
+                            stopAllSound();
+                        }
                         int month = date.getMonth();
                         String weekday = new DateFormatSymbols().getWeekdays()[dayOfWeek + 1];
                         String monthStr = new DateFormatSymbols().getMonths()[month];
@@ -90,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
             }
+
         }, 0, 1000);
 
         detailsField = findViewById(R.id.txtMeteoDetails);
@@ -200,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
                             viewHolder.icon = (ImageView) convertView.findViewById(R.id.imgIcon);
                             viewHolder.name = (TextView) convertView.findViewById(R.id.txt_name);
                             viewHolder.label = (TextView) convertView.findViewById(R.id.txt_label);
+                            //viewHolder.icon.setMinimumHeight(parent.getHeight()/2);
 
                             viewHolder.icon.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -221,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 }
                             });
+
 
                             viewHolder.icon.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                                 @Override
@@ -340,12 +351,57 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void taskLoadUp(String query) {
-        if (MeteoHandler.isNetworkAvailable(getApplicationContext())) {
+        if (WeatherHandler.isNetworkAvailable(getApplicationContext())) {
             DownloadWeather task = new DownloadWeather(); //TODO: implement DownloadWeather (cf site)
             task.execute(query);
         } else {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
         }
+
+    }
+
+    @Override
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        stopAllSound();
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+        stopAllSound();
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+        stopAllSound();
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+        stopAllSound();
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+
+    }
+
+    public void stopAllSound(){
+        MediaPlayer player = new MediaPlayer();
+        player.stop();
+        AudioManager am = (AudioManager) this.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+
+// Request audio focus for playback
+        am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
     }
 
@@ -362,12 +418,12 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences preferences = getSharedPreferences("meteoCoordinates", MODE_PRIVATE);
                 // SharedPreferences.Editor edit= preferences.edit();
 
-                xml = MeteoHandler.excuteGet("http://api.openweathermap.org/data/2.5/weather?lat=" + (preferences.getFloat("lat", 0)) + "&lon=" + (preferences.getFloat("long", 0)) + "" +
+                xml = WeatherHandler.excuteGet("http://api.openweathermap.org/data/2.5/weather?lat=" + (preferences.getFloat("lat", 0)) + "&lon=" + (preferences.getFloat("long", 0)) + "" +
                         "&units=metric&appid=" + OPEN_WEATHER_MAP_API);
                 Log.d("Weather request : ", "http://api.openweathermap.org/data/2.5/weather?lat=" + (preferences.getFloat("lat", 0)) + "&lon=" + (preferences.getFloat("long", 0)) +
                         "&units=metric&appid=" + OPEN_WEATHER_MAP_API);
             } else {
-                xml = MeteoHandler.excuteGet("http://api.openweathermap.org/data/2.5/weather?q=" + args[0] +
+                xml = WeatherHandler.excuteGet("http://api.openweathermap.org/data/2.5/weather?q=" + args[0] +
                         "&units=metric&appid=" + OPEN_WEATHER_MAP_API);
             }
 
@@ -391,7 +447,7 @@ public class MainActivity extends AppCompatActivity {
                     //pressure_field.setText("Pressure: " + main.getString("pressure") + " hPa");
                     //updatedField.setText(df.format(new Date(json.getLong("dt") * 1000)));
                     tempField.setText(String.format("%.1f", main.getDouble("temp")) + "°");
-                    weatherIcon.setText(Html.fromHtml(MeteoHandler.setWeatherIcon(details.getInt("id"),
+                    weatherIcon.setText(Html.fromHtml(WeatherHandler.setWeatherIcon(details.getInt("id"),
                             json.getJSONObject("sys").getLong("sunrise") * 1000,
                             json.getJSONObject("sys").getLong("sunset") * 1000)));
 
@@ -399,10 +455,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             } catch (JSONException e) {
                 Toast.makeText(getApplicationContext(), "Error, Check City", Toast.LENGTH_SHORT).show();
+
             }
 
         }
+
+
+
     }
+
+
 
 
 }

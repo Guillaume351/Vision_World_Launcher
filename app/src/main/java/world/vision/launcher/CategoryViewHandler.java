@@ -1,12 +1,17 @@
 package world.vision.launcher;
 
 import android.animation.Animator;
+import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.icu.util.Calendar;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -34,7 +39,7 @@ import world.vision.launcher.Objects.AppInfo;
 import static android.view.View.GONE;
 
 
-public class CategoryViewHandler extends AppCompatActivity {
+public class CategoryViewHandler extends AppCompatActivity implements Application.ActivityLifecycleCallbacks {
 
     public static ArrayAdapter<AppInfo> adapter;
     public static List<AppInfo> apps;
@@ -91,6 +96,9 @@ public class CategoryViewHandler extends AppCompatActivity {
                         String weekday = new DateFormatSymbols().getWeekdays()[dayOfWeek + 1];//Corrige l'erreur d'un jour
                         String monthStr = new DateFormatSymbols().getMonths()[month];
                         txtDate.setText(weekday.substring(0, 1).toUpperCase() + weekday.substring(1) + android.text.format.DateFormat.format(" dd ", date) + monthStr + " " + android.text.format.DateFormat.format("yyyy", date));
+                        if(CategoryViewHandler.this.hasWindowFocus()) {
+                            stopAllSound();
+                        }
                     }
 
                 });
@@ -314,6 +322,57 @@ public class CategoryViewHandler extends AppCompatActivity {
             Log.d("Erreur ", ex.toString());
         }
     }
+
+    @Override
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        stopAllSound();
+        Log.d("ACTIVITY", "CALLED");
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+        stopAllSound();
+        Log.d("ACTIVITY", "CALLED");
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+        stopAllSound();
+        Log.d("ACTIVITY", "CALLED");
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+        //stopAllSound();
+        Log.d("ACTIVITY", "CALLED");
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+
+    }
+
+    public void stopAllSound(){
+        MediaPlayer player = new MediaPlayer();
+        player.stop();
+        AudioManager am = (AudioManager) this.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+
+// Request audio focus for playback
+        am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+
+
+    }
+
 
 
 

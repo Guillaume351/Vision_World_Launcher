@@ -41,20 +41,21 @@
         android:id="@+id/txtTime2"
         android:layout_width="233dp"
         android:layout_height="71dp"
-        android:layout_marginTop="332dp"
+        android:layout_marginBottom="60dp"
+
         android:text="00:00"
+        android:layout_marginEnd="8dp"
+
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="56sp"
-        app:layout_constraintHorizontal_bias="0.959"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/txtMeteoDetails"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:id="@+id/linearLayout"
         android:layout_width="845dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="72dp"
         android:layout_marginEnd="32dp"
@@ -64,24 +65,26 @@
         android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTime">
+        app:layout_constraintTop_toBottomOf="@+id/txtTime"
+        android:layout_gravity="center"
+        android:gravity="center">
 
         <GridView
             android:id="@+id/categories_gridview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
 
+
+            android:layout_gravity="center"
+            android:fadeScrollbars="false"
             android:focusable="false"
-            android:gravity="center|center_horizontal|fill_horizontal|center_vertical"
+            android:gravity="center"
             android:numColumns="6"
             android:stretchMode="columnWidth"
             android:verticalSpacing="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtTime"
-            app:layout_constraintVertical_bias="0.866" />
-    </LinearLayout>
+
+            />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textView"

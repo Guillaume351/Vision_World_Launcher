@@ -22,9 +22,8 @@ import java.util.function.Function;
 // Project Created by Ferdousur Rahman Shajib
 // www.androstock.com
 
-public class MeteoHandler {
+public class WeatherHandler {
 
-    String city = "Toulouse, FR";
     /* Clé d'API OPEN_WEATHER_MAP*/
     String OPEN_WEATHER_MAP_API = "33db9672ac6de85e2dd02f02bc9445d4";
     Typeface weatherFont;
@@ -105,13 +104,6 @@ public class MeteoHandler {
         return icon;
     }
 
-    public String displayMeteo(Context context) {
-        AssetManager am = context.getApplicationContext().getAssets();
-        weatherFont = Typeface.createFromAsset(am, "weathericons-regular-webfont.ttf");//TODO: move to main?
-
-
-        return "";//TODO: change to meteo
-    }
 
 
 }

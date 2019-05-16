@@ -2,25 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:backgroundTint="#C1C4C7"
+    android:background="#FFFFFF"
     android:focusable="false"
+    android:clickable="false"
     android:focusableInTouchMode="false"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_centerInParent="true">
 
     <ImageView
         android:id="@+id/imgIcon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center|center_vertical"
         android:adjustViewBounds="true"
-        android:scaleType="center"
         android:background="@drawable/button_select"
-
-
         android:backgroundTintMode="src_in"
+
         android:focusable="true"
-        android:foregroundGravity="center_vertical|center_horizontal" />
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:scaleType="fitCenter"
+
+        />
 
     <TextView
         android:id="@+id/txt_label"
