@@ -40,7 +40,7 @@ import java.util.Locale;
 import world.vision.launcher.Adapter.disabledAdapter;
 
 public class LauncherSettings extends AppCompatActivity {
-    public String[] settingsCategories = {"Wifi\net Réseau", "Langues", "Ville météo"};
+    public String[] settingsCategories = {"Wifi\net Réseau", "Langues", "Ville météo", "Date\net Heure", "Toutes\nles Apps"};
     public GridView grdView;
     public ArrayAdapter<String> adapter;
     private FusedLocationProviderClient fusedLocationClient;
@@ -114,7 +114,13 @@ public class LauncherSettings extends AppCompatActivity {
                                     if (settingsCategories[position].equals("Ville météo")) {
                                         refreshWeatherCity(v);
                                     }
-
+                                    if (settingsCategories[position].equals("Date\net Heure")) {
+                                        startActivityForResult(new Intent(Settings.ACTION_DATE_SETTINGS), 0);
+                                    }
+                                    if (settingsCategories[position].equals("Toutes\nles apps")) {
+                                        setResult(2, getIntent());
+                                        finish();
+                                    }
                                 }
                             });
 

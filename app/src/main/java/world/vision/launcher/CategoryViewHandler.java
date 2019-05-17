@@ -47,7 +47,8 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
     public String[] videoApps = {"com.netflix.mediaclient", "com.google.android.youtube", "com.google.android.youtube.tv", "com.amazon.amazonvideo.livingroom", "com.orange.ocsgo", "fr.tf1.mytf1", "fr.francetv.pluzz", "fr.m6.m6replay", "com.disney.dedisneychannel_goo", "com.ldf.gulli.view"};
     public String[] radioApps = {"com.radio.fm.live.free.am.tunein"};
     public String[] musicApps = {"deezer.android.app", "com.apple.android.music", "com.spotify.music", "com.android.music", "deezer.android.tv", "com.amazon.mp3", "com.google.android.music", "com.google.android.apps.youtube.music", "com.google.android.apps.youtube.music", "com.soundcloud.android", "com.jamendo"};
-    public String[] photoApps = {"com.android.gallery"};
+    public String[] photoApps = {"com.cxinventor.file.explorer"};
+    public String[] defaultApps = {};
     PackageManager packageManager;
     TextView txtTime, txtTime2, txtDate;
     Calendar c;
@@ -198,11 +199,20 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
             }
 
         } else {
-            for (AppInfo app : apps) {
-                if (Arrays.asList(toutesLesAppsDeLaCategorie).contains(String.valueOf(app.name))) {
-                    appDeCategorie.add(app);
+            if (true)//if enabled //TODO: change
+                for (AppInfo app : apps) {
+                    if (!Arrays.asList(defaultApps).contains(app)) {
+                        appDeCategorie.add(app);
+                    }
+
+
                 }
-            }
+        }
+
+        if (appDeCategorie.size() == 1) {
+
+            startActivity(getPackageManager().getLaunchIntentForPackage(appDeCategorie.get(0).name.toString()));
+            finish();
         }
 
         try {

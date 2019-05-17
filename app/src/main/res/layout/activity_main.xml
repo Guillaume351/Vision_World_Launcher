@@ -79,8 +79,8 @@
             android:fadeScrollbars="false"
             android:focusable="false"
             android:gravity="center"
-            android:numColumns="6"
-            android:stretchMode="columnWidth"
+            android:numColumns="5"
+            android:stretchMode="spacingWidth"
             android:verticalSpacing="10dp"
 
             />

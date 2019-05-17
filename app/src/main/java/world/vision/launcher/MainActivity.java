@@ -33,6 +33,7 @@ import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
     public static ArrayAdapter<String> adapter;
     public static int CATEGORY_VIDEO = 1, CATEGORY_RADIO = 2, CATEGORY_MUSIC = 3, CATEGORY_TV = 0, CATEGORY_PHOTO = 4, CATEGORY_AUTRES = 5;
     public static int STATE_HOME = 0, STATE_CATEGORY = 1; // Stocke l'etat dans lequel on se trouve (dans un menu, ou à l'accueil)
-    public String[] categories = {"TV", "Vidéos", "Radios", "Musiques", "Stockage", "Autres apps"};
+    public String[] categories = {"TV", "Vidéos", "Radios", "Musiques", "Stockage"};
     public int state = 0;
     TextView txtTime, txtDate;
     Calendar c;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
     String OPEN_WEATHER_MAP_API = "33db9672ac6de85e2dd02f02bc9445d4";
     GridView grdView;
     Timer timerMeteo;
+    Boolean otherAppsEnabled = false;
 
     TextView detailsField, tempField, weatherIcon;//detailsField contient le nom de la ville
 
@@ -182,6 +184,10 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
     }
 
     private void loadMainMenu() {
+        List<String> categoriesAsList = Arrays.asList(categories);
+        if (otherAppsEnabled) {
+            categoriesAsList.add("Mes Apps");
+        }
         try {
 
             grdView = (GridView) findViewById(R.id.categories_gridview);
@@ -195,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
             });
 
             if (adapter == null) {
-                adapter = new disabledAdapter(this, R.layout.grille_categories_icone, Arrays.asList(categories)) {
+                adapter = new disabledAdapter(this, R.layout.grille_categories_icone, categoriesAsList) {
 
                     @Override
                     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -210,6 +216,26 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
                             viewHolder.name = (TextView) convertView.findViewById(R.id.txt_name);
                             viewHolder.label = (TextView) convertView.findViewById(R.id.txt_label);
                             //viewHolder.icon.setMinimumHeight(parent.getHeight()/2);
+
+                            if (position == CATEGORY_TV) {
+                                viewHolder.icon.setImageResource(R.drawable.ic_tv_3);
+                            }
+
+                            if (position == CATEGORY_PHOTO) {
+                                viewHolder.icon.setImageResource(R.drawable.ic_stock);
+                            }
+
+                            if (position == CATEGORY_MUSIC) {
+                                viewHolder.icon.setImageResource(R.drawable.ic_musique);
+                            }
+
+                            if (position == CATEGORY_RADIO) {
+                                viewHolder.icon.setImageResource(R.drawable.ic_radio);
+                            }
+
+                            if (position == CATEGORY_VIDEO) {
+                                viewHolder.icon.setImageResource(R.drawable.ic_video);
+                            }
 
                             viewHolder.icon.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -308,45 +334,55 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
         // Check which request we're responding to
         if (requestCode == 1) {
             // Make sure the request was successful
-            timerMeteo.cancel();
-            timerMeteo = new Timer();
-            timerMeteo.schedule(new TimerTask() {
-                @Override
-                public void run() {
+            if (resultCode == 1) {
+                timerMeteo.cancel();
+                timerMeteo = new Timer();
+                timerMeteo.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
 
-                    SharedPreferences preferences = getSharedPreferences("meteoCoordinates", MODE_PRIVATE);
-                    SharedPreferences.Editor edit = preferences.edit();
+                        SharedPreferences preferences = getSharedPreferences("meteoCoordinates", MODE_PRIVATE);
+                        SharedPreferences.Editor edit = preferences.edit();
 
-                    if (!(preferences.getBoolean("customCity", false))) {
-                        Log.d("Weather", "Custom city disabled");
-                        runOnUiThread(new Runnable() {
+                        if (!(preferences.getBoolean("customCity", false))) {
+                            Log.d("Weather", "Custom city disabled");
+                            runOnUiThread(new Runnable() {
 
-                            @Override
-                            public void run() {
-                                taskLoadUp("Toulouse, FR");
+                                @Override
+                                public void run() {
+                                    taskLoadUp("Toulouse, FR");
 
-                            }
+                                }
 
-                        });
-                    } else {
+                            });
+                        } else {
 
-                        runOnUiThread(new Runnable() {
+                            runOnUiThread(new Runnable() {
 
-                            @Override
-                            public void run() {
-                                Log.d("Weather", "Custom city enabled");
-                                //taskLoadUp(preferences.getString("city","Toulouse")+", "+ preferences.getString("country","France"));
-                                taskLoadUp("BYLONGLAT");
+                                @Override
+                                public void run() {
+                                    Log.d("Weather", "Custom city enabled");
+                                    //taskLoadUp(preferences.getString("city","Toulouse")+", "+ preferences.getString("country","France"));
+                                    taskLoadUp("BYLONGLAT");
 
-                            }
+                                }
 
-                        });
+                            });
+
+                        }
+
 
                     }
+                }, 0, 1000 * 60 * 60);//une fois par heure
+            }
 
+            if (resultCode == 2) {
+                Intent intent = new Intent(MainActivity.this, CategoryViewHandler.class);
+                intent.putExtra("cat", Integer.toString(CATEGORY_AUTRES));
 
-                }
-            }, 0, 1000 * 60 * 60);//une fois par heure
+                startActivity(intent);
+
+            }
         }
     }
 
