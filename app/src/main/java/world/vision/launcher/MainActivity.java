@@ -218,23 +218,23 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
                             //viewHolder.icon.setMinimumHeight(parent.getHeight()/2);
 
                             if (position == CATEGORY_TV) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_tv_3);
+                                viewHolder.icon.setImageResource(R.drawable.ic_tv_3d);
                             }
 
                             if (position == CATEGORY_PHOTO) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_stock);
+                                viewHolder.icon.setImageResource(R.drawable.ic_stockage_3d_hd);
                             }
 
                             if (position == CATEGORY_MUSIC) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_musique);
+                                viewHolder.icon.setImageResource(R.drawable.ic_musique_3d);
                             }
 
                             if (position == CATEGORY_RADIO) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_radio);
+                                viewHolder.icon.setImageResource(R.drawable.ic_radio_3d);
                             }
 
                             if (position == CATEGORY_VIDEO) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_video);
+                                viewHolder.icon.setImageResource(R.drawable.ic_video_3d);
                             }
 
                             viewHolder.icon.setOnClickListener(new View.OnClickListener() {

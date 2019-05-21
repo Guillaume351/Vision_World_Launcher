@@ -73,14 +73,14 @@
             android:id="@+id/categories_gridview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-
+            android:horizontalSpacing="32dp"
 
             android:layout_gravity="center"
             android:fadeScrollbars="false"
             android:focusable="false"
             android:gravity="center"
             android:numColumns="5"
-            android:stretchMode="spacingWidth"
+            android:stretchMode="columnWidth"
             android:verticalSpacing="10dp"
 
             />
