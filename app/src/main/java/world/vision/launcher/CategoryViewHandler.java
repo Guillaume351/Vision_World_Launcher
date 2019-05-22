@@ -117,12 +117,8 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
         meteoIcon.setVisibility(GONE);
         meteoTemp.setVisibility(GONE);
         meteoCityName.setVisibility(GONE);
-        //meteoCityName.setText(getIntent().getStringExtra("cityName"));
 
-        //meteoTemp.setText(getIntent().getStringExtra("weatherTemperature"));
-        //meteoIcon.setText(getIntent().getStringExtra("weatherIcon"));
 
-        // Retrieve and cache the system's default "short" animation time.
         shortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
 
@@ -317,7 +313,7 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
         }
     }
 
-    public void addAppGridListeners() //TODO : gerer lorsque une app est touchée
+    public void addAppGridListeners() //TODO : retirer
     {
         try {
             appGrdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -90,7 +90,21 @@ public class LauncherSettings extends AppCompatActivity {
                             viewHolder.icon = (ImageView) convertView.findViewById(R.id.imgIcon);
                             viewHolder.name = (TextView) convertView.findViewById(R.id.txt_name);
                             viewHolder.label = (TextView) convertView.findViewById(R.id.txt_label);
-
+                            if (settingsCategories[position].equals("Wifi\net Réseau")) {
+                                viewHolder.icon.setImageResource(R.drawable.ic_reseau);
+                            }
+                            if (settingsCategories[position].equals("Langues")) {
+                                viewHolder.icon.setImageResource(R.drawable.ic_langue);
+                            }
+                            if (settingsCategories[position].equals("Ville météo")) {
+                                viewHolder.icon.setImageResource(R.drawable.ic_localisation);
+                            }
+                            if (settingsCategories[position].equals("Date\net Heure")) {
+                                viewHolder.icon.setImageResource(R.drawable.ic_date_heure);
+                            }
+                            if (settingsCategories[position].equals("Toutes\nles apps")) {
+                                viewHolder.icon.setImageResource(R.drawable.ic_application);
+                            }
 
                             viewHolder.icon.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -101,10 +115,7 @@ public class LauncherSettings extends AppCompatActivity {
                                         startActivityForResult(new Intent(Settings.ACTION_WIFI_SETTINGS), 0);
                                     }
 
-                                    if (settingsCategories[position].equals("Ethernet")) {//TODO : Trouver réglage pour ethernet
 
-                                        startActivityForResult(new Intent(Settings.ACTION_WIFI_IP_SETTINGS), 0);
-                                    }
 
                                     if (settingsCategories[position].equals("Langues")) {//TODO : Trouver réglage pour ethernet
 
@@ -170,20 +181,16 @@ public class LauncherSettings extends AppCompatActivity {
     public void refreshWeatherCity(View v) {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
-        //  requestPermissions(permissions,1440);
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(LauncherSettings.this);
         builder.setTitle("Ville météo");
 
-// Set up the input
         final EditText input = new EditText(getApplicationContext());
         input.setHint("Entrez le nom de la ville");
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
-// Set up the buttons
         builder.setPositiveButton("Me localiser", new DialogInterface.OnClickListener() {
 
             @Override

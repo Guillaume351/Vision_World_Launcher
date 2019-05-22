@@ -76,17 +76,14 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
         timer.schedule(new TimerTask() {
 
             @Override
-            public void run() {
+            public void run() {//Timer pour actualiser la date et l'heure toutesl les secondes
                 runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-                        // txtTime.setText(currentDateTimeString);
+
                         Date date = new Date();
                         txtTime.setText(android.text.format.DateFormat.format("HH:mm", date));
-                        //android.text.format.DateFormat df = new android.text.format.DateFormat();//TODO: use to format hour & time
-                        //android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss a", new java.util.Date());
                         int dayOfWeek = date.getDay();
                         if(MainActivity.this.hasWindowFocus()) {
                             stopAllSound();
@@ -106,11 +103,11 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
         detailsField = findViewById(R.id.txtMeteoDetails);
         weatherIcon = findViewById(R.id.txtMeteoLogo);
         tempField = findViewById(R.id.txtMeteoTemp);
-        Typeface weatherFont = Typeface.createFromAsset(getAssets(), "fonts/weathericons-regular-webfont.ttf");
+        Typeface weatherFont = Typeface.createFromAsset(getAssets(), "fonts/weathericons-regular-webfont.ttf"); //On récupère les icônes météo
         weatherIcon.setTypeface(weatherFont);
 
         //taskLoadUp("Toulouse, FR");
-        timerMeteo = new Timer();
+        timerMeteo = new Timer(); //Timer pour actualiser la météo
         timerMeteo.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -145,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
 
 
             }
-        }, 0, 1000 * 60 * 60);//une fois par heure
+        }, 0, 1000 * 60 * 30);//une fois toutes les 30 minutes
 
 
         loadMainMenu();
@@ -156,21 +153,7 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
             grdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    /*
-                    if(state == STATE_HOME){
-                        if(i == CATEGORY_NAVIGATEUR){
-                            startActivity(getPackageManager().getLaunchIntentForPackage("com.android.chrome"));
-                            return;
-                        }
-                        Intent intent = new Intent(view.getContext(), CategoryViewHandler.class);
-                        intent.putExtra("cat",Integer.toString(i));//Stocke l'identifiant de la categorie que l'on veut ouvrier
-                        intent.putExtra("weatherIcon",weatherIcon.getText().toString());//On transfere les donnees meteo à la nouvelle Activity
-                        intent.putExtra("cityName",detailsField.getText().toString());
-                        intent.putExtra("weatherTemperature",tempField.getText().toString());
-                        startActivity(intent);
-                        Log.d("Main listener","Appui detecte");
 
-                    }*/
 
                     Log.d("FOCUS CHANGETOGRID", "FOCUS.");
                     grdView.getChildAt(0).requestFocus();
@@ -215,9 +198,9 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
                             viewHolder.icon = (ImageView) convertView.findViewById(R.id.imgIcon);
                             viewHolder.name = (TextView) convertView.findViewById(R.id.txt_name);
                             viewHolder.label = (TextView) convertView.findViewById(R.id.txt_label);
-                            //viewHolder.icon.setMinimumHeight(parent.getHeight()/2);
 
-                            if (position == CATEGORY_TV) {
+
+                            if (position == CATEGORY_TV) { //Met les icônes pour chaque catégorie
                                 viewHolder.icon.setImageResource(R.drawable.ic_tv_3d);
                             }
 
@@ -239,8 +222,7 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
 
                             viewHolder.icon.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(View v) {
-                                    // Do something
+                                public void onClick(View v) { //Gère le clic sur une des catégories
                                     if (position == 10)//TODO: à retirer
                                     {
                                         startActivity(getPackageManager().getLaunchIntentForPackage("com.android.chrome"));
@@ -331,10 +313,10 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
+
         if (requestCode == 1) {
-            // Make sure the request was successful
-            if (resultCode == 1) {
+
+            if (resultCode == 1) { //Si le code resultat correspond à celui de la météo
                 timerMeteo.cancel();
                 timerMeteo = new Timer();
                 timerMeteo.schedule(new TimerTask() {
@@ -376,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
                 }, 0, 1000 * 60 * 60);//une fois par heure
             }
 
-            if (resultCode == 2) {
+            if (resultCode == 2) {//Si le code resultat correspond à "ouvrir toutes les applis"
                 Intent intent = new Intent(MainActivity.this, CategoryViewHandler.class);
                 intent.putExtra("cat", Integer.toString(CATEGORY_AUTRES));
 
