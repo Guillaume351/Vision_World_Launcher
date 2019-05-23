@@ -5,7 +5,7 @@
     android:id="@+id/constLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_fond_bleu_2"
+    android:background="@drawable/ic_menu_principale_final"
     android:focusable="false"
     tools:context=".MainActivity">
 
