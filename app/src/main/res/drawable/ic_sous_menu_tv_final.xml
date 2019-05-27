@@ -1,7 +1,7 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"
-    android:width="3840dp"
-    android:height="2160dp"
+    android:width="16dp"
+    android:height="9dp"
     android:viewportWidth="3840"
     android:viewportHeight="2160">
     <path android:pathData="M0,0h3840v2160h-3840z">
@@ -56,8 +56,8 @@
             </gradient>
         </aapt:attr>
     </path>
-    <path android:pathData="M-0.83,1056.78C329,867.89 1162.33,820.11 1706.78,1049s899,-269.55 1356.82,-322.89S3840,862.33 3840,862.33V2160H0Z"></path>
-    <path android:pathData="M0,1222.33c517.89,-277.77 1080.11,0 1782.33,297.78s1784.23,95.56 2057.67,22.22V2160H0Z"></path>
+    <path android:pathData="M-0.83,1056.78C329,867.89 1162.33,820.11 1706.78,1049s899,-269.55 1356.82,-322.89S3840,862.33 3840,862.33V2160H0Z" />
+    <path android:pathData="M0,1222.33c517.89,-277.77 1080.11,0 1782.33,297.78s1784.23,95.56 2057.67,22.22V2160H0Z" />
     <path
         android:fillAlpha="0.5"
         android:fillColor="#fff"

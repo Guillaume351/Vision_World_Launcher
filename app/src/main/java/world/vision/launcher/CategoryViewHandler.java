@@ -186,24 +186,19 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
         if (category == MainActivity.CATEGORY_AUTRES) {
             for (AppInfo app : apps) {//On rajoute toutes les apps qui n'appartiennent aux listes établies pour les catégories
 
-                if (!Arrays.asList(radioApps).contains(String.valueOf(app.name)) & !Arrays.asList(musicApps).contains(String.valueOf(app.name)) & !Arrays.asList(videoApps).contains(String.valueOf(app.name))) {
-
+                if (!Arrays.asList(defaultApps).contains(app.name)) {
                     appDeCategorie.add(app);
-
-                    Log.d("App Autre : ", String.valueOf(app.name));
                 }
             }
 
-        } else {
-            if (true)//if enabled //TODO: change
-                for (AppInfo app : apps) {
-                    if (!Arrays.asList(defaultApps).contains(app)) {
-                        appDeCategorie.add(app);
-                    }
-
-
-                }
         }
+
+        for (AppInfo app : apps) {
+            if (Arrays.asList(toutesLesAppsDeLaCategorie).contains(app.name)) {
+                appDeCategorie.add(app);
+            }
+        }
+
 
         if (appDeCategorie.size() == 1) {
 

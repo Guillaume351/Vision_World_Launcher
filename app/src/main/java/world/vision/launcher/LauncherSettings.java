@@ -102,7 +102,7 @@ public class LauncherSettings extends AppCompatActivity {
                             if (settingsCategories[position].equals("Date\net Heure")) {
                                 viewHolder.icon.setImageResource(R.drawable.ic_date_heure);
                             }
-                            if (settingsCategories[position].equals("Toutes\nles apps")) {
+                            if (settingsCategories[position].equals("Toutes\nles Apps")) {
                                 viewHolder.icon.setImageResource(R.drawable.ic_application);
                             }
 
@@ -128,7 +128,7 @@ public class LauncherSettings extends AppCompatActivity {
                                     if (settingsCategories[position].equals("Date\net Heure")) {
                                         startActivityForResult(new Intent(Settings.ACTION_DATE_SETTINGS), 0);
                                     }
-                                    if (settingsCategories[position].equals("Toutes\nles apps")) {
+                                    if (settingsCategories[position].equals("Toutes\nles Apps")) {
                                         setResult(2, getIntent());
                                         finish();
                                     }
