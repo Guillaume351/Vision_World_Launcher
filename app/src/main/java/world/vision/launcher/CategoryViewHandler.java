@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.icu.util.Calendar;
@@ -14,6 +16,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -165,23 +168,23 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
         String[] toutesLesAppsDeLaCategorie = {};
         if (category == MainActivity.CATEGORY_VIDEO) {
             toutesLesAppsDeLaCategorie = videoApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.ic_sous_menu_video_final));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_video));
         }
         if (category == MainActivity.CATEGORY_TV) {
             toutesLesAppsDeLaCategorie = tvApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.ic_sous_menu_tv_final));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_tv));
         }
         if (category == MainActivity.CATEGORY_MUSIC) {
             toutesLesAppsDeLaCategorie = musicApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.ic_sous_menu_musique_final));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_musique));
         }
         if (category == MainActivity.CATEGORY_PHOTO) {
             toutesLesAppsDeLaCategorie = photoApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.ic_sous_menu_stockage_final));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_stockage));
         }
         if (category == MainActivity.CATEGORY_RADIO) {
             toutesLesAppsDeLaCategorie = radioApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.ic_sous_menu_radio_final));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_radio));
         }
         if (category == MainActivity.CATEGORY_AUTRES) {
             for (AppInfo app : apps) {//On rajoute toutes les apps qui n'appartiennent aux listes établies pour les catégories
@@ -241,8 +244,35 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
                         viewHolder = (ViewHolderItem) convertView.getTag();
                     }
                     Drawable imgIconDraw = appDeCategorie.get(position).icon;
+
+                    ApplicationInfo applicationInfo =
+                            null;
+                    try {
+                        applicationInfo = getPackageManager().getApplicationInfo(appDeCategorie.get(position).name.toString(), PackageManager.GET_META_DATA);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Resources res = null;
+                    try {
+                        res = getPackageManager().getResourcesForApplication(applicationInfo);
+                        Drawable appIcon = res.getDrawableForDensity(applicationInfo.icon,
+                                DisplayMetrics.DENSITY_XXXHIGH,
+                                null);
+                        imgIconDraw = appIcon;
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
                     imgIconDraw.setFilterBitmap(false);
                     viewHolder.icon.setImageDrawable(imgIconDraw);
+
+
+
+
+
                     viewHolder.label.setText(appDeCategorie.get(position).label);
                     viewHolder.name.setText(appDeCategorie.get(position).name);
 

@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
 
     public static ArrayAdapter<String> adapter;
     public static int CATEGORY_VIDEO = 1, CATEGORY_RADIO = 2, CATEGORY_MUSIC = 3, CATEGORY_TV = 0, CATEGORY_PHOTO = 4, CATEGORY_AUTRES = 5;
-    public static int STATE_HOME = 0, STATE_CATEGORY = 1; // Stocke l'etat dans lequel on se trouve (dans un menu, ou à l'accueil)
     public String[] categories = {"TV", "Vidéos", "Radios", "Musiques", "Stockage"};
     public int state = 0;
     TextView txtTime, txtDate;
