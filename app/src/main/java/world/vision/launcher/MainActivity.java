@@ -274,17 +274,8 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
                         } else {
                             viewHolder = (ViewHolderItem) convertView.getTag();
                         }
-                        /*
-                        viewHolder.icon.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                            @Override
-                            public void onFocusChange(View v, boolean hasFocus) {
 
-                                Log.d("FOCUS CHANGE", "FOCUS CALLED222222");
 
-                            }
-                        });*/
-
-//                      AppInfo appInfo = apps.get(position);
                         viewHolder.label.setText(categories[position]);
                         return convertView;
 
