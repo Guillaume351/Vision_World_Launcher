@@ -1,6 +1,5 @@
 package world.vision.launcher;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -58,9 +57,6 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
     GridView appGrdView;
 
     TextView meteoIcon, meteoTemp, meteoCityName;
-
-    private Animator currentAnimator;
-    private int shortAnimationDuration;
 
     @Override
     protected void onCreate(Bundle savedInstances) {
@@ -120,10 +116,6 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
         meteoIcon.setVisibility(GONE);
         meteoTemp.setVisibility(GONE);
         meteoCityName.setVisibility(GONE);
-
-
-        shortAnimationDuration = getResources().getInteger(
-                android.R.integer.config_shortAnimTime);
 
         findViewById(R.id.textView).setVisibility(GONE);
         findViewById(R.id.imageView).setVisibility(GONE);
@@ -393,6 +385,9 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
 
     }
 
+    /**
+     * Coupe le son lorsque on est hors d'une application
+     */
     public void stopAllSound(){
         MediaPlayer player = new MediaPlayer();
         player.stop();

@@ -40,7 +40,7 @@ import java.util.Locale;
 import world.vision.launcher.Adapter.disabledAdapter;
 
 public class LauncherSettings extends AppCompatActivity {
-    public String[] settingsCategories = {"Wifi\net Réseau", "Langues", "Ville météo", "Date\net Heure", "Toutes\nles Apps"};
+    public String[] settingsCategories = {"Wifi\net Réseau", "Langues", "Ville météo", "Date\net Heure", "Apps"};
     public GridView grdView;
     public ArrayAdapter<String> adapter;
     private FusedLocationProviderClient fusedLocationClient;
@@ -63,6 +63,9 @@ public class LauncherSettings extends AppCompatActivity {
 
     }
 
+    /**
+     * Charge toutes les catégories (boutons) disponibles dans les réglages
+     */
     public void addSettingsCategories() {
         try {
 
@@ -102,7 +105,7 @@ public class LauncherSettings extends AppCompatActivity {
                             if (settingsCategories[position].equals("Date\net Heure")) {
                                 viewHolder.icon.setImageResource(R.drawable.ic_date_heure);
                             }
-                            if (settingsCategories[position].equals("Toutes\nles Apps")) {
+                            if (settingsCategories[position].equals("Apps")) {
                                 viewHolder.icon.setImageResource(R.drawable.ic_application);
                             }
 
@@ -111,10 +114,8 @@ public class LauncherSettings extends AppCompatActivity {
                                 public void onClick(View v) {
                                     // Do something
                                     if (settingsCategories[position].equals("Wifi\net Réseau")) {
-
                                         startActivityForResult(new Intent(Settings.ACTION_WIFI_SETTINGS), 0);
                                     }
-
 
 
                                     if (settingsCategories[position].equals("Langues")) {//TODO : Trouver réglage pour ethernet
@@ -128,7 +129,7 @@ public class LauncherSettings extends AppCompatActivity {
                                     if (settingsCategories[position].equals("Date\net Heure")) {
                                         startActivityForResult(new Intent(Settings.ACTION_DATE_SETTINGS), 0);
                                     }
-                                    if (settingsCategories[position].equals("Toutes\nles Apps")) {
+                                    if (settingsCategories[position].equals("Apps")) {
                                         setResult(2, getIntent());
                                         finish();
                                     }
@@ -176,7 +177,11 @@ public class LauncherSettings extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Ouvre la fenêtre pour rentrer le nom de la ville météo souhaitée
+     *
+     * @param v
+     */
     @SuppressLint({"RxLeakedSubscription", "RxSubscribeOnError"})
     public void refreshWeatherCity(View v) {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -202,6 +207,7 @@ public class LauncherSettings extends AppCompatActivity {
 
         builder.setNegativeButton("Entrer manuellement", new DialogInterface.OnClickListener() {
             String m_Text;
+
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -213,11 +219,14 @@ public class LauncherSettings extends AppCompatActivity {
         builder.show();
     }
 
+    /**
+     * Retourne les coordonnées d'une ville à partir de son nom
+     * @param city
+     */
     public void getLocationFromCityName(String city) {
 
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         List<Address> addresses = null;
-
 
         SharedPreferences preferences = getSharedPreferences("meteoCoordinates", MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();
@@ -247,6 +256,9 @@ public class LauncherSettings extends AppCompatActivity {
         }
     }
 
+    /**
+     * Utilise la géolocalisation pour trouver la ville météo
+     */
     public void useGeoLocation(){
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION).subscribe(granted -> {
@@ -320,6 +332,10 @@ public class LauncherSettings extends AppCompatActivity {
         });
     }
 
+    /**
+     * Affiche un message d'erreur (ville non trouvée)
+     * @param c
+     */
     private void showCityError(Context c) {
 
         AlertDialog dialog = new AlertDialog.Builder(c)

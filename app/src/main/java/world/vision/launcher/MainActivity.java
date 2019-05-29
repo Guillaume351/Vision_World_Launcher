@@ -147,7 +147,8 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
         loadMainMenu();
     }
 
-    public void addGridListeners() {
+
+    public void addGridListeners() {//TODO : Retirer
         try {
             grdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -165,6 +166,9 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
 
     }
 
+    /**
+     * Charge les catégories de l'affichage principal
+     */
     private void loadMainMenu() {
         List<String> categoriesAsList = Arrays.asList(categories);
         if (otherAppsEnabled) {
@@ -296,11 +300,22 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
 
     }
 
+    /**
+     * Ouvre la section réglages
+     *
+     * @param v
+     */
     public void openSettings(View v) {
         Intent intent = new Intent(this, LauncherSettings.class);
         startActivityForResult(intent, 1);
     }
 
+    /**
+     * Gère les réponses des activitées ouvertes depuis les réglages
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -358,6 +373,10 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
         }
     }
 
+    /**
+     * Charge la météo
+     * @param query
+     */
     public void taskLoadUp(String query) {
         if (WeatherHandler.isNetworkAvailable(getApplicationContext())) {
             DownloadWeather task = new DownloadWeather(); //TODO: implement DownloadWeather (cf site)
@@ -403,12 +422,15 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
 
     }
 
+    /**
+     * Coupe le son lorsque on est hors d'une application
+     */
     public void stopAllSound(){
         MediaPlayer player = new MediaPlayer();
         player.stop();
         AudioManager am = (AudioManager) this.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
-// Request audio focus for playback
+// Request audio focus for playback&
         am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
     }
