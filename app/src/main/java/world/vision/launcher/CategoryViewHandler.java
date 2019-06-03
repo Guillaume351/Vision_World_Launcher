@@ -160,36 +160,36 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
         String[] toutesLesAppsDeLaCategorie = {};
         if (category == MainActivity.CATEGORY_VIDEO) {
             toutesLesAppsDeLaCategorie = videoApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_video));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.video));
         }
         if (category == MainActivity.CATEGORY_TV) {
             toutesLesAppsDeLaCategorie = tvApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_tv));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.tv));
         }
         if (category == MainActivity.CATEGORY_MUSIC) {
             toutesLesAppsDeLaCategorie = musicApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_musique));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.musique));
         }
         if (category == MainActivity.CATEGORY_PHOTO) {
             toutesLesAppsDeLaCategorie = photoApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_stockage));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.stockage));
         }
         if (category == MainActivity.CATEGORY_RADIO) {
             toutesLesAppsDeLaCategorie = radioApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_radio));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.radio));
         }
         if (category == MainActivity.CATEGORY_AUTRES) {
 
             for (AppInfo app : apps) {//On rajoute toutes les apps qui n'appartiennent aux listes établies pour les catégories
 
-                if (app.name.toString() == "com.android.vending") {
+                if (app.name.toString().equals("com.android.vending")) {
                     appDeCategorie.add(app);
                     Log.d("add HERE  app", app.name.toString());
                 }
             }
             for (AppInfo app : apps) {//On rajoute toutes les apps qui n'appartiennent aux listes établies pour les catégories
 
-                if (!Arrays.asList(musicApps).contains(app.name) & !Arrays.asList(radioApps).contains(app.name) & !Arrays.asList(videoApps).contains(app.name) & !Arrays.asList(photoApps).contains(app.name) & !Arrays.asList(tvApps).contains(app.name) & app.name.toString() != "com.android.vending") {
+                if (!Arrays.asList(musicApps).contains(app.name) & !Arrays.asList(radioApps).contains(app.name) & !Arrays.asList(videoApps).contains(app.name) & !Arrays.asList(photoApps).contains(app.name) & !Arrays.asList(tvApps).contains(app.name) & !app.name.toString().equals("com.android.vending")) {
                     appDeCategorie.add(app);
                     Log.d("add app", app.name.toString());
                 }
@@ -271,7 +271,8 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
                     viewHolder.icon.setImageDrawable(imgIconDraw);
 
 
-
+                    viewHolder.icon.setScaleX(0.8f);
+                    viewHolder.icon.setScaleY(0.8f);
 
 
                     viewHolder.label.setText(appDeCategorie.get(position).label);
@@ -284,11 +285,11 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
                         public void onFocusChange(View v, boolean hasFocus) {
                             // zoomImageFromThumb(v, R.drawable.rounded_square_512)
                             if (hasFocus) {
-                                v.setScaleX(1.5f);
-                                v.setScaleY(1.5f);
+                                v.setScaleX(1.2f);
+                                v.setScaleY(1.2f);
                             } else {
-                                v.setScaleX(1.f);
-                                v.setScaleY(1.f);
+                                v.setScaleX(0.8f);
+                                v.setScaleY(0.8f);
                             }
 
                         }

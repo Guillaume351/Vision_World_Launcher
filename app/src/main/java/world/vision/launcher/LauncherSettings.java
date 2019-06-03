@@ -94,19 +94,19 @@ public class LauncherSettings extends AppCompatActivity {
                             viewHolder.name = (TextView) convertView.findViewById(R.id.txt_name);
                             viewHolder.label = (TextView) convertView.findViewById(R.id.txt_label);
                             if (settingsCategories[position].equals("Wifi\net Réseau")) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_reseau);
+                                viewHolder.icon.setImageResource(R.drawable.reseau);
                             }
                             if (settingsCategories[position].equals("Langues")) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_langue);
+                                viewHolder.icon.setImageResource(R.drawable.langue);
                             }
                             if (settingsCategories[position].equals("Ville météo")) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_localisation);
+                                viewHolder.icon.setImageResource(R.drawable.localisation);
                             }
                             if (settingsCategories[position].equals("Date\net Heure")) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_date_heure);
+                                viewHolder.icon.setImageResource(R.drawable.date_heure);
                             }
                             if (settingsCategories[position].equals("Apps")) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_application);
+                                viewHolder.icon.setImageResource(R.drawable.application);
                             }
 
                             viewHolder.icon.setOnClickListener(new View.OnClickListener() {
