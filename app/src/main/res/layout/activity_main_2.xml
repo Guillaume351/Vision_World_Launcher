@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/menu_principale_1080"
+    android:focusable="false"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="235dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="68dp"
+        android:text="1 Janvier 2019"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.962"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTime"
+        android:layout_width="233dp"
+        android:layout_height="71dp"
+        android:layout_marginTop="8dp"
+        android:text="00:00"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="56sp"
+        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTime2"
+        android:layout_width="233dp"
+        android:layout_height="71dp"
+        android:layout_marginEnd="8dp"
+
+        android:layout_marginBottom="60dp"
+        android:text="00:00"
+
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="56sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtMeteoDetails"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="845dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="32dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTime">
+
+        <GridView
+            android:id="@+id/categories_gridview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:fadeScrollbars="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:horizontalSpacing="32dp"
+            android:numColumns="4"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp"
+
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="98dp"
+        android:layout_height="27dp"
+        android:layout_marginBottom="8dp"
+        android:text="Paramètres"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_select"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="openSettings"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/visionworldlogo" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="240dp"
+        android:layout_height="118dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:foregroundTint="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/visionworldnamewhite" />
+
+    <TextView
+        android:id="@+id/txtMeteoDetails"
+        android:layout_width="106dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+
+        app:layout_constraintStart_toEndOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/txtMeteoLogo"
+        android:layout_width="106dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="8dp"
+
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="44sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtMeteoDetails"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/txtMeteoTemp"
+        android:layout_width="105dp"
+        android:layout_height="77dp"
+        android:layout_marginEnd="112dp"
+
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txtMeteoDetails"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

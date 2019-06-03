@@ -64,7 +64,7 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_2);
 
         List<AppInfo> listeApps = loadApps();//TODO: move out of this file
 
@@ -179,10 +179,19 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
             findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_radio));
         }
         if (category == MainActivity.CATEGORY_AUTRES) {
+
             for (AppInfo app : apps) {//On rajoute toutes les apps qui n'appartiennent aux listes établies pour les catégories
 
-                if (!Arrays.asList(defaultApps).contains(app.name)) {
+                if (app.name.toString() == "com.android.vending") {
                     appDeCategorie.add(app);
+                    Log.d("add HERE  app", app.name.toString());
+                }
+            }
+            for (AppInfo app : apps) {//On rajoute toutes les apps qui n'appartiennent aux listes établies pour les catégories
+
+                if (!Arrays.asList(musicApps).contains(app.name) & !Arrays.asList(radioApps).contains(app.name) & !Arrays.asList(videoApps).contains(app.name) & !Arrays.asList(photoApps).contains(app.name) & !Arrays.asList(tvApps).contains(app.name) & app.name.toString() != "com.android.vending") {
+                    appDeCategorie.add(app);
+                    Log.d("add app", app.name.toString());
                 }
             }
 
