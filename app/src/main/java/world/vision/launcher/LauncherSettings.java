@@ -108,7 +108,20 @@ public class LauncherSettings extends AppCompatActivity {
                             if (settingsCategories[position].equals("Apps")) {
                                 viewHolder.icon.setImageResource(R.drawable.application);
                             }
+                            viewHolder.icon.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                @Override
+                                public void onFocusChange(View v, boolean hasFocus) {
+                                    // zoomImageFromThumb(v, R.drawable.rounded_square_512)
+                                    if (hasFocus) {
+                                        v.setScaleX(1.3f);
+                                        v.setScaleY(1.3f);
+                                    } else {
+                                        v.setScaleX(1.f);
+                                        v.setScaleY(1.f);
+                                    }
 
+                                }
+                            });
                             viewHolder.icon.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

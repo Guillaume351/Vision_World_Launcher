@@ -160,23 +160,23 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
         String[] toutesLesAppsDeLaCategorie = {};
         if (category == MainActivity.CATEGORY_VIDEO) {
             toutesLesAppsDeLaCategorie = videoApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.video));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_video));
         }
         if (category == MainActivity.CATEGORY_TV) {
             toutesLesAppsDeLaCategorie = tvApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.tv));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_tv));
         }
         if (category == MainActivity.CATEGORY_MUSIC) {
             toutesLesAppsDeLaCategorie = musicApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.musique));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_musique));
         }
         if (category == MainActivity.CATEGORY_PHOTO) {
             toutesLesAppsDeLaCategorie = photoApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.stockage));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_stockage));
         }
         if (category == MainActivity.CATEGORY_RADIO) {
             toutesLesAppsDeLaCategorie = radioApps;
-            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.radio));
+            findViewById(R.id.constLayout).setBackground(getDrawable(R.drawable.sous_menu_radio));
         }
         if (category == MainActivity.CATEGORY_AUTRES) {
 

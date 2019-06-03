@@ -70,6 +70,20 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
 
         txtTime = (TextView) findViewById(R.id.txtTime);
         txtDate = (TextView) findViewById(R.id.txtDate);
+        findViewById(R.id.imageView).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // zoomImageFromThumb(v, R.drawable.rounded_square_512)
+                if (hasFocus) {
+                    v.setScaleX(1.3f);
+                    v.setScaleY(1.3f);
+                } else {
+                    v.setScaleX(1.f);
+                    v.setScaleY(1.f);
+                }
+
+            }
+        });
         findViewById(R.id.txtTime2).setVisibility(View.GONE);
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -204,23 +218,23 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
 
 
                             if (position == CATEGORY_TV) { //Met les icônes pour chaque catégorie
-                                viewHolder.icon.setImageResource(R.drawable.ic_tv_3d);
+                                viewHolder.icon.setImageResource(R.drawable.tv);
                             }
 
                             if (position == CATEGORY_PHOTO) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_stockage_3d_hd);
+                                viewHolder.icon.setImageResource(R.drawable.stockage);
                             }
 
                             if (position == CATEGORY_MUSIC) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_musique_3d);
+                                viewHolder.icon.setImageResource(R.drawable.musique);
                             }
 
                             if (position == CATEGORY_RADIO) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_radio_3d);
+                                viewHolder.icon.setImageResource(R.drawable.radio);
                             }
 
                             if (position == CATEGORY_VIDEO) {
-                                viewHolder.icon.setImageResource(R.drawable.ic_video_3d);
+                                viewHolder.icon.setImageResource(R.drawable.video);
                             }
 
                             viewHolder.icon.setOnClickListener(new View.OnClickListener() {
