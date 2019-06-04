@@ -287,6 +287,7 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
                             if (hasFocus) {
                                 v.setScaleX(1.2f);
                                 v.setScaleY(1.2f);
+                                appGrdView.smoothScrollToPosition(position);
                             } else {
                                 v.setScaleX(0.8f);
                                 v.setScaleY(0.8f);

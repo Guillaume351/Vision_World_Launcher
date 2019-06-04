@@ -10,21 +10,7 @@
     android:focusableInTouchMode="false"
     android:orientation="vertical"
     android:layout_centerInParent="true">
-    <ImageView
-        android:id="@+id/imgIconBackGround"
 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center|center_vertical"
-        android:adjustViewBounds="true"
-        android:background="@drawable/button_select"
-        android:backgroundTintMode="src_in"
-
-        android:focusable="true"
-        android:foregroundGravity="center_vertical|center_horizontal"
-        android:scaleType="fitCenter"
-
-        />
     <ImageView
         android:id="@+id/imgIcon"
 
