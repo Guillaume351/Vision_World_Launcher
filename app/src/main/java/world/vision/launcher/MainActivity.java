@@ -40,7 +40,7 @@ import java.util.TimerTask;
 
 import world.vision.launcher.Adapter.disabledAdapter;
 
-public class MainActivity extends AppCompatActivity implements Application.ActivityLifecycleCallbacks   {
+public class MainActivity extends AppCompatActivity implements Application.ActivityLifecycleCallbacks {
 
     public static ArrayAdapter<String> adapter;
     public static int CATEGORY_VIDEO = 1, CATEGORY_RADIO = 2, CATEGORY_MUSIC = 3, CATEGORY_TV = 0, CATEGORY_PHOTO = 4, CATEGORY_AUTRES = 5;
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
                         Date date = new Date();
                         txtTime.setText(android.text.format.DateFormat.format("HH:mm", date));
                         int dayOfWeek = date.getDay();
-                        if(MainActivity.this.hasWindowFocus()) {
+                        if (MainActivity.this.hasWindowFocus()) {
                             stopAllSound();
                         }
                         int month = date.getMonth();
@@ -151,7 +151,6 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
 
                     });
                 }
-
 
 
             }
@@ -326,6 +325,7 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
 
     /**
      * Gère les réponses des activitées ouvertes depuis les réglages
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -389,6 +389,7 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
 
     /**
      * Charge la météo
+     *
      * @param query
      */
     public void taskLoadUp(String query) {
@@ -439,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
     /**
      * Coupe le son lorsque on est hors d'une application
      */
-    public void stopAllSound(){
+    public void stopAllSound() {
         MediaPlayer player = new MediaPlayer();
         player.stop();
         AudioManager am = (AudioManager) this.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
@@ -505,10 +506,7 @@ public class MainActivity extends AppCompatActivity implements Application.Activ
         }
 
 
-
     }
-
-
 
 
 }

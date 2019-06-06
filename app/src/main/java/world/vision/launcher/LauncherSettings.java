@@ -234,6 +234,7 @@ public class LauncherSettings extends AppCompatActivity {
 
     /**
      * Retourne les coordonnées d'une ville à partir de son nom
+     *
      * @param city
      */
     public void getLocationFromCityName(String city) {
@@ -272,7 +273,7 @@ public class LauncherSettings extends AppCompatActivity {
     /**
      * Utilise la géolocalisation pour trouver la ville météo
      */
-    public void useGeoLocation(){
+    public void useGeoLocation() {
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION).subscribe(granted -> {
             if (granted) {
@@ -347,6 +348,7 @@ public class LauncherSettings extends AppCompatActivity {
 
     /**
      * Affiche un message d'erreur (ville non trouvée)
+     *
      * @param c
      */
     private void showCityError(Context c) {
