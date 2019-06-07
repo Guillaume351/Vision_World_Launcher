@@ -96,7 +96,7 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
                         String weekday = new DateFormatSymbols().getWeekdays()[dayOfWeek + 1];//Corrige l'erreur d'un jour
                         String monthStr = new DateFormatSymbols().getMonths()[month];
                         txtDate.setText(weekday.substring(0, 1).toUpperCase() + weekday.substring(1) + android.text.format.DateFormat.format(" dd ", date) + monthStr + " " + android.text.format.DateFormat.format("yyyy", date));
-                        if(CategoryViewHandler.this.hasWindowFocus()) {
+                        if (CategoryViewHandler.this.hasWindowFocus()) {
                             stopAllSound();
                         }
                     }
@@ -124,7 +124,11 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
         openCategory(Integer.parseInt(getIntent().getStringExtra("cat")), listeApps);
     }
 
-
+    /**
+     * Charge les noms et icones d'applications installées sur l'appareil pour pouvoir les afficher
+     *
+     * @return
+     */
     public List<AppInfo> loadApps() {
 
         try {
@@ -143,7 +147,6 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
                     appinfo.name = ri.activityInfo.packageName;
                     appinfo.icon = ri.activityInfo.loadIcon(packageManager);
                     apps.add(appinfo);
-
                 }
             }
             return apps;
@@ -154,6 +157,11 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
         return null;
     }
 
+    /**
+     * Appelée lors de la pression d'une catégorie
+     * @param category
+     * @param apps
+     */
     private void openCategory(int category, final List<AppInfo> apps) {
 
         final ArrayList<AppInfo> appDeCategorie = new ArrayList<>();
@@ -203,7 +211,6 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
             }
         }
 
-
         if (appDeCategorie.size() == 1) {
 
             startActivity(getPackageManager().getLaunchIntentForPackage(appDeCategorie.get(0).name.toString()));
@@ -237,9 +244,9 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
                             }
                         });
                         viewHolder = new ViewHolderItem();
-                        viewHolder.icon = (ImageView) convertView.findViewById(R.id.imgIcon);
-                        viewHolder.name = (TextView) convertView.findViewById(R.id.txt_name);
-                        viewHolder.label = (TextView) convertView.findViewById(R.id.txt_label);
+                        viewHolder.icon = convertView.findViewById(R.id.imgIcon);
+                        viewHolder.name = convertView.findViewById(R.id.txt_name);
+                        viewHolder.label = convertView.findViewById(R.id.txt_label);
                         convertView.setTag(viewHolder);
                     } else {
                         viewHolder = (ViewHolderItem) convertView.getTag();
@@ -254,7 +261,7 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
                         e.printStackTrace();
                     }
                     Resources res = null;
-                    try {
+                    try { //On récupère l'icône en HD
                         res = getPackageManager().getResourcesForApplication(applicationInfo);
                         Drawable appIcon = res.getDrawableForDensity(applicationInfo.icon,
                                 DisplayMetrics.DENSITY_XXXHIGH,
@@ -263,8 +270,6 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
                     }
-
-
 
 
                     imgIconDraw.setFilterBitmap(false);
@@ -298,24 +303,13 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
                     viewHolder.icon.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // Do something
-                            // zoomImageFromThumb(v, R.drawable.rounded_square_512);
-                            // v.setScaleX(2.f);
-                            //  v.setScaleY(2.f);
                             startActivity(getPackageManager().getLaunchIntentForPackage(appDeCategorie.get(position).name.toString()));
-                            // return;
-
-
                         }
                     });
                     viewHolder.icon.setOnLongClickListener(new View.OnLongClickListener() {
 
-
                         @Override
                         public boolean onLongClick(View v) {
-
-
-                            // zoomImageFromThumb(v, R.drawable.rounded_square_512);
                             return false;
                         }
                     });
@@ -334,13 +328,13 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
             };
 
             appGrdView.setAdapter(adapter);
-            // addAppGridListeners();
         } catch (Exception ex) {
-            //Toast.makeText(GetApps.this, ex.getMessage().toString() + " loadListView", Toast.LENGTH_LONG).show();
-            //Log.e("Error loadListView", ex.getMessage().toString() + " loadListView");
         }
     }
 
+    /**
+     * Ancienne méthode
+     */
     public void addAppGridListeners() //TODO : retirer
     {
         try {
@@ -399,7 +393,7 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
     /**
      * Coupe le son lorsque on est hors d'une application
      */
-    public void stopAllSound(){
+    public void stopAllSound() {
         MediaPlayer player = new MediaPlayer();
         player.stop();
         AudioManager am = (AudioManager) this.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
@@ -409,9 +403,6 @@ public class CategoryViewHandler extends AppCompatActivity implements Applicatio
 
 
     }
-
-
-
 
 
 }
